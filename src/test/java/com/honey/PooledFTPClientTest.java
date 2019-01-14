@@ -1,0 +1,44 @@
+package com.honey;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+public class PooledFTPClientTest {
+
+    @Test
+    public void test() {
+        BasicFTPClientManager manager = new BasicFTPClientManager();
+        manager.setHost("127.0.0.1");
+        manager.setPort(21);
+        manager.setUserName("root");
+        manager.setPassword("123456");
+        InputStream inputStream = null;
+        try {
+            byte[] bytes = "hello ftp server".getBytes();
+            inputStream = new ByteArrayInputStream(bytes);
+            PooledFTPClient ftpClient = manager.getFTPClient();
+            ftpClient.storeFile("/file1.txt",inputStream);
+            ftpClient.disconnect(); // return to pool
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    //e.printStackTrace();
+                }
+            }
+        }
+        try {
+            manager.close();
+        } catch (Exception e) {
+            //e.printStackTrace();
+        }
+
+    }
+}

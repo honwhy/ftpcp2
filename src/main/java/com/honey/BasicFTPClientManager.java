@@ -2,7 +2,7 @@ package com.honey;
 
 import org.apache.commons.pool2.impl.GenericObjectPool;
 
-public class BasicFTPClientManager extends FTPClientManagerConfig implements FTPClientManager {
+public class BasicFTPClientManager extends FTPClientManagerConfig implements BasicFTPClientManagerMXBean, FTPClientManager {
 
     private volatile FTPClientManager manager;
     private GenericObjectPool<PooledFTPClient> connectionPool;
@@ -94,5 +94,15 @@ public class BasicFTPClientManager extends FTPClientManagerConfig implements FTP
                 //swallow exception
             }
         }
+    }
+
+    @Override
+    public int getNumIdle() {
+        return connectionPool.getNumIdle();
+    }
+
+    @Override
+    public int getNumActive() {
+        return connectionPool.getNumActive();
     }
 }

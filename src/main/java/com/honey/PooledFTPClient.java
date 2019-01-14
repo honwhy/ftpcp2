@@ -30,7 +30,7 @@ public class PooledFTPClient extends FTPClient {
         super.disconnect();
     }
 
-    public void setConnectionPool(GenericObjectPool<PooledFTPClient> connectionPool) {
+    protected void setConnectionPool(GenericObjectPool<PooledFTPClient> connectionPool) {
         this.connectionPool = connectionPool;
     }
 }
