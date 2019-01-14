@@ -20,7 +20,7 @@ public class BasicFTPClientManagerTest {
         Assert.assertTrue(manager.getNumActive() == 1);
         Assert.assertTrue(manager.getNumIdle() == 1);
 
-        ftpClient.disconnect(); //return to pool
+        ftpClient.holdConnection(); //return to pool
         Assert.assertTrue(manager.getNumActive() == 0);
         Assert.assertTrue(manager.getNumIdle() == 2);
         manager.close();

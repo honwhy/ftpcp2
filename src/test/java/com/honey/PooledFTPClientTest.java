@@ -21,8 +21,14 @@ public class PooledFTPClientTest {
             byte[] bytes = "hello ftp server".getBytes();
             inputStream = new ByteArrayInputStream(bytes);
             PooledFTPClient ftpClient = manager.getFTPClient();
+            long ct1 = ftpClient.getCreateTimestamp();
             ftpClient.storeFile("/file1.txt",inputStream);
-            ftpClient.disconnect(); // return to pool
+            ftpClient.holdConnection(); // return to pool
+
+            ftpClient =  manager.getFTPClient(); //get from pool again
+            Assert.assertTrue(ct1 == ftpClient.getCreateTimestamp());
+            boolean ret = ftpClient.deleteFile("/file1.txt");
+            Assert.assertTrue(ret);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -34,6 +40,7 @@ public class PooledFTPClientTest {
                 }
             }
         }
+
         try {
             manager.close();
         } catch (Exception e) {

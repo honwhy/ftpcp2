@@ -33,7 +33,7 @@ public class PoolableConnectionFactory implements PooledObjectFactory<PooledFTPC
             client.connect(host, port);
             int reply = client.getReplyCode();
             if(!FTPReply.isPositiveCompletion(reply)) {
-                client.superDisconnect();
+                client.disconnect();
                 throw new Exception("failed to connect server" + host + ":" + port + " reply code is: " + reply);
             }
             if(userName != null && password != null) {
@@ -41,7 +41,7 @@ public class PoolableConnectionFactory implements PooledObjectFactory<PooledFTPC
                 reply = client.getReplyCode();
                 if(!FTPReply.isPositiveCompletion(reply)) {
                     client.logout();
-                    client.superDisconnect();
+                    client.disconnect();
                     throw new Exception("failed to login to server" + host + ":" + port + " reply code is: " + reply);
                 }
             }
@@ -75,7 +75,9 @@ public class PoolableConnectionFactory implements PooledObjectFactory<PooledFTPC
 
     @Override
     public void destroyObject(PooledObject<PooledFTPClient> p) throws Exception {
-
+        PooledFTPClient ftpClient = p.getObject();
+        ftpClient.logout();
+        ftpClient.disconnect();
     }
 
     @Override
