@@ -82,6 +82,13 @@ public class PoolableConnectionFactory implements PooledObjectFactory<PooledFTPC
 
     @Override
     public boolean validateObject(PooledObject<PooledFTPClient> p) {
+        PooledFTPClient ftpClient = p.getObject();
+        try {
+            int reply = ftpClient.noop();
+            return FTPReply.isPositiveCompletion(reply);
+        } catch (IOException e) {
+            //TODO logger
+        }
         return false;
     }
 
