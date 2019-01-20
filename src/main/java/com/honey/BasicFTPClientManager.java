@@ -46,9 +46,6 @@ public class BasicFTPClientManager extends FTPClientManagerConfig implements Bas
                 throw new Exception("Error preloading the connection pool", e);
             }
 
-            // If timeBetweenEvictionRunsMillis > 0, start the pool's evictor task
-            startPoolMaintenance();
-
             manager = newManager;
             return manager;
         }
@@ -75,6 +72,9 @@ public class BasicFTPClientManager extends FTPClientManagerConfig implements Bas
     }
 
     private void closeConnectionPool() {
+        if (connectionPool != null) {
+            connectionPool.close();
+        }
     }
 
     private PoolableConnectionFactory createPoolableConnectionFactory() {
