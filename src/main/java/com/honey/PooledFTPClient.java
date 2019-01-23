@@ -6,14 +6,14 @@ import org.apache.commons.pool2.impl.GenericObjectPool;
 import java.io.IOException;
 
 
-public class PooledFTPClient extends FTPClient {
+public class PooledFTPClient extends FTPClient implements AutoCloseable {
 
     /**
      * ref to object pool which this object will return to
      */
     protected GenericObjectPool<PooledFTPClient> connectionPool;
-    private boolean isLogout;
-    private boolean isDisconnected;
+    private boolean quit;
+    private boolean disconnected;
     private long createTimestamp;
 
     public PooledFTPClient(GenericObjectPool<PooledFTPClient> connectionPool) {
@@ -23,25 +23,20 @@ public class PooledFTPClient extends FTPClient {
     @Override
     public void disconnect() throws IOException {
         super.disconnect();
-        isDisconnected = true;
+        disconnected = true;
     }
 
     @Override
     public boolean logout() throws IOException {
         boolean ret = super.logout(); //will send out ftp quit command
-        isLogout = true;
+        quit = true;
         return ret;
     }
 
-    public void holdConnection() throws IOException {
+    @Override
+    public void close() throws Exception {
         Utils.checkNonNull(connectionPool,"connection pool is null, this SHOULD NOT HAPPEN!!!");
-        try {
-            if (!isDisconnected && !isLogout) {
-                connectionPool.returnObject(this);
-            }
-        } catch (Exception e) {
-            throw new IOException(e);
-        }
+        connectionPool.returnObject(this);
     }
 
     protected void setConnectionPool(GenericObjectPool<PooledFTPClient> connectionPool) {
@@ -50,5 +45,13 @@ public class PooledFTPClient extends FTPClient {
 
     public long getCreateTimestamp() {
         return createTimestamp;
+    }
+
+    public boolean isQuit() {
+        return quit;
+    }
+
+    public boolean isDisconnected() {
+        return disconnected;
     }
 }

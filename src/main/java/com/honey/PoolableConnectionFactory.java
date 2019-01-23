@@ -76,8 +76,11 @@ public class PoolableConnectionFactory implements PooledObjectFactory<PooledFTPC
     @Override
     public void destroyObject(PooledObject<PooledFTPClient> p) throws Exception {
         PooledFTPClient ftpClient = p.getObject();
-        ftpClient.logout();
-        ftpClient.disconnect();
+        try {
+            ftpClient.logout();
+        } finally {
+            ftpClient.disconnect();
+        }
     }
 
     @Override
@@ -99,6 +102,13 @@ public class PoolableConnectionFactory implements PooledObjectFactory<PooledFTPC
 
     @Override
     public void passivateObject(PooledObject<PooledFTPClient> p) throws Exception {
+        PooledFTPClient ftpClient = p.getObject();
+        if (ftpClient.isQuit()) {
+            throw new Exception("client has quit shall not return to connection pool");
+        }
+        if (ftpClient.isDisconnected()) {
+            throw new Exception("client has disconnected shall not return to connection pool");
+        }
 
     }
     private PooledFTPClient configure() throws Exception {

@@ -25,7 +25,7 @@ public class BasicFTPClientManagerTest {
         Assert.assertTrue(manager.getNumActive() == 1);
         Assert.assertTrue(manager.getNumIdle() == 1);
 
-        ftpClient.holdConnection(); //return to pool
+        ftpClient.close(); //return to pool
         Assert.assertTrue(manager.getNumActive() == 0);
         Assert.assertTrue(manager.getNumIdle() == 2);
         List<PooledFTPClient> pooledFTPClientList = new ArrayList<>(10);
@@ -40,7 +40,7 @@ public class BasicFTPClientManagerTest {
         } catch (Exception e) {
         }
         for (PooledFTPClient pooledFTPClient : pooledFTPClientList) {
-            pooledFTPClient.holdConnection();
+            pooledFTPClient.close();
         }
         manager.close();
     }

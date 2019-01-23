@@ -51,16 +51,6 @@ public class BasicFTPClientManager extends FTPClientManagerConfig implements Bas
         }
     }
 
-    /**
-     * Starts the connection pool maintenance task, if configured.
-     */
-    protected void startPoolMaintenance() {
-        long timeBetweenEvictionRunsMillis = getTimeBetweenEvictionRunsMillis();
-        if (connectionPool != null && timeBetweenEvictionRunsMillis > 0) {
-            connectionPool.setTimeBetweenEvictionRunsMillis(timeBetweenEvictionRunsMillis);
-        }
-    }
-
     private FTPClientManager createFTPClientManager() {
         return new PoolingFTPClientManager(connectionPool);
     }

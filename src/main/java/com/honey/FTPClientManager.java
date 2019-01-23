@@ -1,8 +1,7 @@
 package com.honey;
 
-public interface FTPClientManager {
+public interface FTPClientManager extends AutoCloseable {
 
     PooledFTPClient getFTPClient() throws Exception;
 
-    void close() throws Exception;
 }

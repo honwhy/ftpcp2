@@ -23,7 +23,7 @@ public class PooledFTPClientTest {
             PooledFTPClient ftpClient = manager.getFTPClient();
             long ct1 = ftpClient.getCreateTimestamp();
             ftpClient.storeFile("/file1.txt",inputStream);
-            ftpClient.holdConnection(); // return to pool
+            ftpClient.close(); // return to pool
 
             ftpClient =  manager.getFTPClient(); //get from pool again
             Assert.assertTrue(ct1 == ftpClient.getCreateTimestamp());
@@ -47,5 +47,26 @@ public class PooledFTPClientTest {
             //e.printStackTrace();
         }
 
+    }
+
+    @Test
+    public void testAutoclose() {
+        try (BasicFTPClientManager manager = new BasicFTPClientManager()){
+            manager.setHost("127.0.0.1");
+            manager.setPort(21);
+            manager.setUserName("root");
+            manager.setPassword("123456");
+            InputStream inputStream = null;
+            try (PooledFTPClient ftpClient = manager.getFTPClient()){
+                byte[] bytes = "hello ftp server".getBytes();
+                inputStream = new ByteArrayInputStream(bytes);
+                ftpClient.storeFile("/file1.txt",inputStream);
+                ftpClient.deleteFile("/file1.txt");
+            } catch (Exception e) {
+                Assert.fail(e.getMessage());
+            }
+        } catch (Exception e){
+            Assert.fail(e.getMessage());
+        }
     }
 }
