@@ -1,4 +1,4 @@
-package com.honey;
+package com.github.honwhy;
 
 public interface FTPClientManager extends AutoCloseable {
 

@@ -1,4 +1,4 @@
-package com.honey;
+package com.github.honwhy;
 
 public class AssertionError extends Error {
 

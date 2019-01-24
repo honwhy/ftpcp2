@@ -1,4 +1,4 @@
-package com.honey;
+package com.github.honwhy;
 
 import org.junit.Assert;
 import org.junit.Test;
