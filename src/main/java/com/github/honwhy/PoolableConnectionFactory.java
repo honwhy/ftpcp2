@@ -27,7 +27,7 @@ public class PoolableConnectionFactory implements PooledObjectFactory<PooledFTPC
         client.setConnectionPool(connectionPool);
         String host = managerConfig.host;
         int port = managerConfig.port;
-        String userName = managerConfig.userName;
+        String username = managerConfig.username;
         String password = managerConfig.password;
         try {
             client.connect(host, port);
@@ -36,8 +36,8 @@ public class PoolableConnectionFactory implements PooledObjectFactory<PooledFTPC
                 client.disconnect();
                 throw new Exception("failed to connect server" + host + ":" + port + " reply code is: " + reply);
             }
-            if(userName != null && password != null) {
-                client.login(userName, password);
+            if(username != null && password != null) {
+                client.login(username, password);
                 reply = client.getReplyCode();
                 if(!FTPReply.isPositiveCompletion(reply)) {
                     client.logout();

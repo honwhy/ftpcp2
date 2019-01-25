@@ -13,7 +13,7 @@ public class BasicFTPClientManagerTest {
         BasicFTPClientManager manager = new BasicFTPClientManager();
         manager.setHost("127.0.0.1");
         manager.setPort(21);
-        manager.setUserName("root");
+        manager.setUsername("root");
         manager.setPassword("123456");
         manager.setInitialSize(2);
         manager.setMaxTotal(10);
