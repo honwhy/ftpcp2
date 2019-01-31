@@ -2,7 +2,7 @@ package com.github.honwhy;
 
 import org.apache.commons.pool2.ObjectPool;
 
-public class PoolingFTPClientManager implements FTPClientManager, AutoCloseable {
+public class PoolingFTPClientManager implements FTPClientManager {
 
     private final ObjectPool<PooledFTPClient> objectPool;
 
@@ -16,7 +16,7 @@ public class PoolingFTPClientManager implements FTPClientManager, AutoCloseable 
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() {
         objectPool.close();
     }
 }

@@ -2,7 +2,7 @@ package com.github.honwhy;
 
 import org.apache.commons.pool2.impl.GenericObjectPool;
 
-public class BasicFTPClientManager extends FTPClientManagerConfig implements BasicFTPClientManagerMXBean, FTPClientManager {
+public class BasicFTPClientManager extends FTPClientManagerConfig implements BasicFTPClientManagerMBean, FTPClientManager {
 
     private volatile FTPClientManager manager;
     private GenericObjectPool<PooledFTPClient> connectionPool;
@@ -72,7 +72,7 @@ public class BasicFTPClientManager extends FTPClientManagerConfig implements Bas
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() {
         if (closed) {
             return ;
         }

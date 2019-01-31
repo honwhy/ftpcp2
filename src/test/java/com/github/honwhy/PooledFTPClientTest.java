@@ -51,12 +51,13 @@ public class PooledFTPClientTest {
 
     @Test
     public void testAutoclose() {
-        try (BasicFTPClientManager manager = new BasicFTPClientManager()){
-            manager.setHost("127.0.0.1");
-            manager.setPort(21);
-            manager.setUsername("root");
-            manager.setPassword("123456");
-            InputStream inputStream = null;
+        BasicFTPClientManager manager = new BasicFTPClientManager();
+        manager.setHost("127.0.0.1");
+        manager.setPort(21);
+        manager.setUsername("root");
+        manager.setPassword("123456");
+        InputStream inputStream;
+        try {
             try (PooledFTPClient ftpClient = manager.getFTPClient()){
                 byte[] bytes = "hello ftp server".getBytes();
                 inputStream = new ByteArrayInputStream(bytes);

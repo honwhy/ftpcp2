@@ -1,6 +1,6 @@
 package com.github.honwhy;
 
-public interface BasicFTPClientManagerMXBean {
+public interface BasicFTPClientManagerMBean {
     int getInitialSize();
     int getNumIdle();
     int getNumActive();
