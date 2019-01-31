@@ -6,15 +6,15 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BasicFTPClientManagerTest {
+public class BasicFTPClientManagerTest extends BasicFTPClientTestTemplate {
 
     @Test
     public void test() throws Exception {
         BasicFTPClientManager manager = new BasicFTPClientManager();
-        manager.setHost("127.0.0.1");
-        manager.setPort(21);
-        manager.setUsername("root");
-        manager.setPassword("123456");
+        manager.setHost("localhost");
+        manager.setPort(getListenerPort());
+        manager.setUsername(ADMIN_USERNAME);
+        manager.setPassword(ADMIN_PASSWORD);
         manager.setInitialSize(2);
         manager.setMaxTotal(10);
         manager.setMaxWaitMillis(50L);
