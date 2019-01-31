@@ -2,11 +2,20 @@ package com.github.honwhy;
 
 import org.apache.commons.pool2.impl.GenericObjectPool;
 
+import javax.management.*;
+import java.lang.management.ManagementFactory;
+
 public class BasicFTPClientManager extends FTPClientManagerConfig implements BasicFTPClientManagerMBean, FTPClientManager {
 
     private volatile FTPClientManager manager;
     private GenericObjectPool<PooledFTPClient> connectionPool;
+    private ObjectName oname;
     private boolean closed;
+
+    // JMX specific attributes
+    private static final String ONAME_BASE =
+            "com.github.honwhy:type=BasicFTPClientManager,name=ftpcp";
+
     @Override
     public PooledFTPClient getFTPClient() throws Exception {
         return createManager().getFTPClient();
@@ -35,6 +44,9 @@ public class BasicFTPClientManager extends FTPClientManagerConfig implements Bas
 
             // Create the pooling manager to manage connections
             FTPClientManager newManager  = createFTPClientManager();
+
+            // for jmx
+            jmxRegister();
 
             // If initialSize > 0, preload the pool
             try {
@@ -79,6 +91,7 @@ public class BasicFTPClientManager extends FTPClientManagerConfig implements Bas
         synchronized (this) {
             closed = true;
             try{
+                jmxUnregister();
                 manager.close();
             } catch (Exception e) {
                 //swallow exception
@@ -94,5 +107,50 @@ public class BasicFTPClientManager extends FTPClientManagerConfig implements Bas
     @Override
     public int getNumActive() {
         return connectionPool.getNumActive();
+    }
+
+    private void jmxRegister() {
+        ObjectName objectName = null;
+        final MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+        int i = 1;
+        boolean registered = false;
+        while (!registered) {
+            try {
+                ObjectName objName;
+                // Skip the numeric suffix for the first pool in case there is
+                // only one so the names are cleaner.
+                if (i == 1) {
+                    objName = new ObjectName(ONAME_BASE);
+                } else {
+                    objName = new ObjectName(ONAME_BASE + i);
+                }
+                mbs.registerMBean(this, objName);
+                objectName = objName;
+                registered = true;
+            } catch (final MalformedObjectNameException | InstanceAlreadyExistsException e) {
+                // Increment the index and try again
+                i++;
+            } catch (final MBeanRegistrationException e) {
+                // Shouldn't happen. Skip registration if it does.
+                registered = true;
+            } catch (final NotCompliantMBeanException e) {
+                // Shouldn't happen. Skip registration if it does.
+                registered = true;
+            }
+        }
+        this.oname = objectName;
+    }
+
+    private void jmxUnregister() {
+        if (oname != null) {
+            try {
+                ManagementFactory.getPlatformMBeanServer().unregisterMBean(
+                        oname);
+            } catch (final MBeanRegistrationException e) {
+                // swallow exception
+            } catch (final InstanceNotFoundException e) {
+                // swallow exception
+            }
+        }
     }
 }
