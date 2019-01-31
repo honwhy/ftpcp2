@@ -3,6 +3,7 @@ package com.github.honwhy;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
 public class FTPClientManagerConfig extends GenericObjectPoolConfig {
+
     protected int initialSize;
 
     protected String serverTimeZoneId;
