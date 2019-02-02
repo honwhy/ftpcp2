@@ -76,6 +76,7 @@ public class BasicFTPClientManager extends FTPClientManagerConfig implements Bas
     private void closeConnectionPool() {
         if (connectionPool != null) {
             connectionPool.close();
+            connectionPool = null; //help gc
         }
     }
 
@@ -93,6 +94,7 @@ public class BasicFTPClientManager extends FTPClientManagerConfig implements Bas
             try{
                 jmxUnregister();
                 manager.close();
+                connectionPool = null; //help gc
             } catch (Exception e) {
                 //swallow exception
             }
