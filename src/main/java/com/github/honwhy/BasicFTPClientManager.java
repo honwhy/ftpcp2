@@ -109,6 +109,11 @@ public class BasicFTPClientManager extends FTPClientManagerConfig implements Bas
         return connectionPool.getNumActive();
     }
 
+    @Override
+    public String getConnectionPoolName() {
+        return connectionPool.getJmxName().getCanonicalName();
+    }
+
     private void jmxRegister() {
         ObjectName objectName = null;
         final MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
