@@ -7,15 +7,15 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class PooledFTPClientTest {
+public class PooledFTPClientTest extends BasicFTPClientTestTemplate {
 
     @Test
     public void test() {
         BasicFTPClientManager manager = new BasicFTPClientManager();
-        manager.setHost("127.0.0.1");
-        manager.setPort(21);
-        manager.setUsername("root");
-        manager.setPassword("123456");
+        manager.setHost("localhost");
+        manager.setPort(getListenerPort());
+        manager.setUsername(ADMIN_USERNAME);
+        manager.setPassword(ADMIN_PASSWORD);
         InputStream inputStream = null;
         try {
             byte[] bytes = "hello ftp server".getBytes();
@@ -52,10 +52,10 @@ public class PooledFTPClientTest {
     @Test
     public void testAutoclose() {
         BasicFTPClientManager manager = new BasicFTPClientManager();
-        manager.setHost("127.0.0.1");
-        manager.setPort(21);
-        manager.setUsername("root");
-        manager.setPassword("123456");
+        manager.setHost("localhost");
+        manager.setPort(getListenerPort());
+        manager.setUsername(ADMIN_USERNAME);
+        manager.setPassword(ADMIN_PASSWORD);
         InputStream inputStream;
         try {
             try (PooledFTPClient ftpClient = manager.getFTPClient()){

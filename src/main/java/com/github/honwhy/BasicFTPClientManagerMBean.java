@@ -7,4 +7,8 @@ public interface BasicFTPClientManagerMBean {
     String getHost();
     int getPort();
     String getUsername();
+
+    // get associate connection pool jmx name
+    String getConnectionPoolName();
+
 }
