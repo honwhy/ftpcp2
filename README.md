@@ -19,8 +19,18 @@ and the dependency:
 
 ```xml
 <dependency>
-    <groupId>com.github.honwhy</groupId>
-    <artifactId>ftpcp2</artifactId>
-    <version>9212f64a2b</version>
+    <groupId>com.github.honwhy.ftpcp2</groupId>
+    <artifactId>ftpcp</artifactId>
+    <version>master-SNAPSHOT</version>
+</dependency>
+```
+
+for spring-boot starter, add dependency:
+
+```xml
+<dependency>
+    <groupId>com.github.honwhy.ftpcp2</groupId>
+    <artifactId>ftpcp-spring-boot-starter</artifactId>
+    <version>master-SNAPSHOT</version>
 </dependency>
 ```

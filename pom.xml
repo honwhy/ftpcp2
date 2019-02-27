@@ -10,6 +10,7 @@
     <version>master-SNAPSHOT</version>
     <modules>
         <module>ftpcp</module>
+        <module>ftpcp-spring-boot-starter</module>
     </modules>
 
     <name>ftpcp2</name>
@@ -22,8 +23,8 @@
         <apache.ftpserver.version>1.1.1</apache.ftpserver.version>
         <commons.codec.version>1.3</commons.codec.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencies>
