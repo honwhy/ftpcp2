@@ -26,7 +26,7 @@ public class BasicFTPClientManager extends FTPClientManagerConfig implements Bas
             throw new Exception("manager is closed");
         }
         // Return the pool if we have already created it
-        // This is double-checked locking. This is safe since dataSource is
+        // This is double-checked locking. This is safe since manager is
         // volatile and the code is targeted at Java 5 onwards.
         if (manager != null) {
             return manager;
