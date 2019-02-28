@@ -11,7 +11,6 @@
 
     <groupId>com.github.honwhy.ftpcp2</groupId>
     <artifactId>ftpcp</artifactId>
-    <version>master-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
@@ -37,6 +36,12 @@
             <artifactId>commons-codec</artifactId>
             <version>${commons.codec.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.api.version}</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

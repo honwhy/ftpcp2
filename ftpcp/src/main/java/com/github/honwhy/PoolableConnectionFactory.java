@@ -6,12 +6,16 @@ import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.PooledObjectFactory;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
 import org.apache.commons.pool2.impl.GenericObjectPool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.SocketException;
 
 public class PoolableConnectionFactory implements PooledObjectFactory<PooledFTPClient> {
+
+    private static final Logger logger = LoggerFactory.getLogger(PoolableConnectionFactory.class);
 
     FTPClientManagerConfig managerConfig;
     //nullable
@@ -90,7 +94,7 @@ public class PoolableConnectionFactory implements PooledObjectFactory<PooledFTPC
             int reply = ftpClient.noop();
             return FTPReply.isPositiveCompletion(reply);
         } catch (IOException e) {
-            //TODO logger
+            logger.error("validate object exception", e);
         }
         return false;
     }
