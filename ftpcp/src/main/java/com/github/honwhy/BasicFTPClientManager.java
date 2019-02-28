@@ -90,10 +90,14 @@ public class BasicFTPClientManager extends FTPClientManagerConfig implements Bas
             return ;
         }
         synchronized (this) {
+            if (closed) {
+                return;
+            }
             closed = true;
             try{
                 jmxUnregister();
                 manager.close();
+                manager = null;
                 connectionPool = null; //help gc
             } catch (Exception e) {
                 //swallow exception
