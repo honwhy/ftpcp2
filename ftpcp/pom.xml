@@ -11,6 +11,7 @@
 
     <groupId>com.github.honwhy.ftpcp2</groupId>
     <artifactId>ftpcp</artifactId>
+    <version>0.0.2</version>
 
     <dependencies>
         <dependency>
