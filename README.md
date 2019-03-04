@@ -21,7 +21,7 @@ and the dependency:
 <dependency>
     <groupId>com.github.honwhy.ftpcp2</groupId>
     <artifactId>ftpcp</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
 </dependency>
 ```
 
@@ -31,6 +31,6 @@ for spring-boot starter, add dependency:
 <dependency>
     <groupId>com.github.honwhy.ftpcp2</groupId>
     <artifactId>ftpcp-spring-boot-starter</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
 </dependency>
 ```
