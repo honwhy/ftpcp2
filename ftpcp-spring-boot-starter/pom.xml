@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.github.honwhy.ftpcp2</groupId>
     <artifactId>ftpcp-spring-boot-starter</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
     <name>ftpcp-spring-boot-starter</name>
     <description>FTP connection pool starter for Spring Boot</description>
 
@@ -24,7 +24,7 @@
         <dependency>
             <groupId>com.github.honwhy.ftpcp2</groupId>
             <artifactId>ftpcp</artifactId>
-            <version>0.0.2</version>
+            <version>0.0.3</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.ftpserver/ftpserver -->
         <dependency>

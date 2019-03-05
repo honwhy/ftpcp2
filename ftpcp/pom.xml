@@ -5,14 +5,19 @@
     <parent>
         <artifactId>ftpcp2</artifactId>
         <groupId>com.github.honwhy</groupId>
-        <version>0.0.2</version>
+        <version>0.0.3</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.honwhy.ftpcp2</groupId>
     <artifactId>ftpcp</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
 
+    <properties>
+        <commons.pool.version>2.5.0</commons.pool.version>
+        <commons.net.version>3.6</commons.net.version>
+        <slf4j.api.version>1.7.25</slf4j.api.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.apache.commons</groupId>
