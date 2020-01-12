@@ -22,22 +22,23 @@ public class BasicFTPClientManagerTest extends BasicFTPClientTestTemplate {
         //Assert.assertTrue(manager.getNumIdle() == 2);
 
         PooledFTPClient ftpClient = manager.getFTPClient(); //borrow one from pool
-        Assert.assertTrue(manager.getNumActive() == 1);
-        Assert.assertTrue(manager.getNumIdle() == 1);
+        Assert.assertEquals(manager.getNumActive(), 1);
+        Assert.assertEquals(manager.getNumIdle(), 1);
 
         ftpClient.close(); //return to pool
-        Assert.assertTrue(manager.getNumActive() == 0);
-        Assert.assertTrue(manager.getNumIdle() == 2);
+        Assert.assertEquals(manager.getNumActive(), 0);
+        Assert.assertEquals(manager.getNumIdle(), 2);
         List<PooledFTPClient> pooledFTPClientList = new ArrayList<>(10);
         for (int i = 0; i < 10; i++) {
             pooledFTPClientList.add(manager.getFTPClient());
         }
-        Assert.assertTrue(manager.getNumActive() == 10);
-        Assert.assertTrue(manager.getNumIdle() == 0);
+        Assert.assertEquals(manager.getNumActive(), 10);
+        Assert.assertEquals(manager.getNumIdle(), 0);
         try {
             manager.getFTPClient(); //can not get from pool anymore
             Assert.fail("would not get another one from pool");
         } catch (Exception e) {
+            e.printStackTrace();
         }
         for (PooledFTPClient pooledFTPClient : pooledFTPClientList) {
             pooledFTPClient.close();

@@ -10,7 +10,7 @@ public class BasicFTPClientManager extends FTPClientManagerConfig implements Bas
     private volatile FTPClientManager manager;
     private GenericObjectPool<PooledFTPClient> connectionPool;
     private ObjectName oname;
-    private boolean closed;
+    private volatile boolean closed;
 
     // JMX specific attributes
     private static final String ONAME_BASE =
@@ -141,10 +141,7 @@ public class BasicFTPClientManager extends FTPClientManagerConfig implements Bas
             } catch (final MalformedObjectNameException | InstanceAlreadyExistsException e) {
                 // Increment the index and try again
                 i++;
-            } catch (final MBeanRegistrationException e) {
-                // Shouldn't happen. Skip registration if it does.
-                registered = true;
-            } catch (final NotCompliantMBeanException e) {
+            } catch (final MBeanRegistrationException | NotCompliantMBeanException e) {
                 // Shouldn't happen. Skip registration if it does.
                 registered = true;
             }
@@ -157,9 +154,7 @@ public class BasicFTPClientManager extends FTPClientManagerConfig implements Bas
             try {
                 ManagementFactory.getPlatformMBeanServer().unregisterMBean(
                         oname);
-            } catch (final MBeanRegistrationException e) {
-                // swallow exception
-            } catch (final InstanceNotFoundException e) {
+            } catch (final MBeanRegistrationException | InstanceNotFoundException e) {
                 // swallow exception
             }
         }

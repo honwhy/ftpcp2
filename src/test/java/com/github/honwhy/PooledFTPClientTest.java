@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 public class PooledFTPClientTest extends BasicFTPClientTestTemplate {
 
@@ -18,7 +19,7 @@ public class PooledFTPClientTest extends BasicFTPClientTestTemplate {
         manager.setPassword(ADMIN_PASSWORD);
         InputStream inputStream = null;
         try {
-            byte[] bytes = "hello ftp server".getBytes();
+            byte[] bytes = "hello ftp server".getBytes(StandardCharsets.UTF_8.name());
             inputStream = new ByteArrayInputStream(bytes);
             PooledFTPClient ftpClient = manager.getFTPClient();
             long ct1 = ftpClient.getCreateTimestamp();
@@ -26,7 +27,7 @@ public class PooledFTPClientTest extends BasicFTPClientTestTemplate {
             ftpClient.close(); // return to pool
 
             ftpClient =  manager.getFTPClient(); //get from pool again
-            Assert.assertTrue(ct1 == ftpClient.getCreateTimestamp());
+            Assert.assertEquals(ct1, ftpClient.getCreateTimestamp());
             boolean ret = ftpClient.deleteFile("/file1.txt");
             Assert.assertTrue(ret);
         } catch (Exception e) {
@@ -59,7 +60,7 @@ public class PooledFTPClientTest extends BasicFTPClientTestTemplate {
         InputStream inputStream;
         try {
             try (PooledFTPClient ftpClient = manager.getFTPClient()){
-                byte[] bytes = "hello ftp server".getBytes();
+                byte[] bytes = "hello ftp server".getBytes(StandardCharsets.UTF_8.name());
                 inputStream = new ByteArrayInputStream(bytes);
                 ftpClient.storeFile("/file1.txt",inputStream);
                 ftpClient.deleteFile("/file1.txt");
