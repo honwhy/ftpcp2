@@ -4,6 +4,7 @@ import org.apache.commons.pool2.impl.GenericObjectPool;
 
 import javax.management.*;
 import java.lang.management.ManagementFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class BasicFTPClientManager extends FTPClientManagerConfig implements BasicFTPClientManagerMBean, FTPClientManager {
 
@@ -11,11 +12,17 @@ public class BasicFTPClientManager extends FTPClientManagerConfig implements Bas
     private GenericObjectPool<PooledFTPClient> connectionPool;
     private ObjectName oname;
     private volatile boolean closed;
+    private static AtomicInteger MANAGER_ID = new AtomicInteger(0);
+    private String id;
 
     // JMX specific attributes
     private static final String ONAME_BASE =
             "com.github.honwhy:type=BasicFTPClientManager,name=ftpcp";
 
+    public BasicFTPClientManager() {
+        super();
+        this.id = String.valueOf(MANAGER_ID.getAndIncrement());
+    }
     @Override
     public PooledFTPClient getFTPClient() throws Exception {
         return createManager().getFTPClient();
@@ -158,5 +165,9 @@ public class BasicFTPClientManager extends FTPClientManagerConfig implements Bas
                 // swallow exception
             }
         }
+    }
+
+    public String getId() {
+        return this.id;
     }
 }
