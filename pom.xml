@@ -7,7 +7,7 @@
     <groupId>com.github.honwhy</groupId>
     <artifactId>ftpcp2</artifactId>
     <packaging>jar</packaging>
-    <version>0.0.3</version>
+    <version>0.0.1-20200112</version>
 
     <name>ftpcp2</name>
     <url>https://github.com/honwhy/ftpcp2</url>
